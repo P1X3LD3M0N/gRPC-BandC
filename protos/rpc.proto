@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+service RPC{
+    rpc MsgDelivery (Request) returns (Reply) {}
+    rpc Call (Req) returns (Rep) {}
+}
+
+message Request{
+    int32 id = 1;
+    string interface = 2;
+    int32 money = 3;
+    int32 clock = 4;
+    int32 bank_id = 5;
+}
+
+message Reply{
+    int32 id = 1;
+    string interface = 2;
+    string result = 3;
+    int32 balance = 4;
+    int32 clock = 5;
+}
+
+message Req{
+    bool stop = 1;
+}
+
+message Rep{
+    bool stopped = 1;
+}
