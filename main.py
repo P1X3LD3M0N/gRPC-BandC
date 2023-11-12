@@ -61,7 +61,7 @@ if __name__ == "__main__":
     for obj in input_data:
         if obj["type"] == "customer":
             customer_port = 50051 + int(obj["id"]) - 1 #Each port is adjusted based on the Customer ID
-            command = f'python Customer.py {customer_port} {obj["id"]} "{obj["customer-requests"]}"'
+            command = f'python Customer.py {customer_port} {obj["id"]} "{obj["customer-requests"]}" "{last_port_number_plus_one-50051}'
             p = subprocess.run(command, shell=True)
             print(f"Main.py - Customer process started at port {customer_port}")
             time.sleep(2)

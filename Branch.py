@@ -45,6 +45,12 @@ class Branch(rpc_pb2_grpc.RPCServicer):
 
     def Call(self, request, context):
         if request.stop:
+            for stub in self.stubs:
+                response = stub.Call(rpc_pb2.Req(stop=False))
+            with open("Output2.json", "a") as f:
+                f.write(json.dumps(self.output, indent=4))
+                f.write(",")
+        else:
             with open("Output2.json", "a") as f:
                 f.write(json.dumps(self.output, indent=4))
                 f.write(",")
@@ -160,6 +166,12 @@ class Branch(rpc_pb2_grpc.RPCServicer):
                 "interface": "propagate_withdraw",
                 "comment": "event_sent to branch " + str(counter)
             }
+            for i in event_dict:
+                self.output3[i] = event_dict[i]
+
+            with open("Output3.json", "a") as f:
+                f.write(json.dumps(self.output3, indent=4))
+                f.write(",")
             self.output["events"].append(event_dict)
             stub.MsgDelivery(
                 rpc_pb2.Request(
@@ -184,6 +196,12 @@ class Branch(rpc_pb2_grpc.RPCServicer):
                 "interface": "propagate_deposit",
                 "comment": "event_sent to branch " + str(counter)
             }
+            for i in event_dict:
+                self.output3[i] = event_dict[i]
+
+            with open("Output3.json", "a") as f:
+                f.write(json.dumps(self.output3, indent=4))
+                f.write(",")
             self.output["events"].append(event_dict)
             stub.MsgDelivery(
                 rpc_pb2.Request(

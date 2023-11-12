@@ -5,7 +5,7 @@ import sys
 import json
 
 class Customer:
-    def __init__(self, ID, events, thisport):
+    def __init__(self, ID, events, thisport, last_customer):
         # Unique ID of the Customer
         self.id = ID
         # Events from the input
@@ -18,6 +18,8 @@ class Customer:
         self.channel = grpc.insecure_channel('localhost:' + str(thisport))
         # gRPC stub for calling the server process
         self.stub = self.createStub()
+        # This is the last customer
+        self.last = last_customer
         # This is the dictionary to construct the output process
         self.output = {"id": self.id, "type": "customer", "events": []}
         self.output3 = {"id": self.id, "customer-request-id": "", "type": "customer"}
@@ -62,19 +64,20 @@ class Customer:
         return self.output
 
     def finished(self):
-        response = self.stub.Call(rpc_pb2.Req(stop=True))
-        if response:
-            pass
+        if int(self.id) == self.last:
+            response = self.stub.Call(rpc_pb2.Req(stop=True))
+            if response:
+                pass
 
 if __name__ == '__main__':
 
     thisport = int(sys.argv[1])
     customer_id = sys.argv[2]
     customer_events = sys.argv[3]
-
+    last_customer = int(sys.argv[4])
     print(f"Customer@{thisport} - Main: Customer process started at port: {thisport} with ID: {customer_id} and events: {customer_events}")
     
-    c = Customer(customer_id, customer_events, thisport)
+    c = Customer(customer_id, customer_events, thisport, last_customer)
     output = c.executeEvents()
     c.finished()
 
