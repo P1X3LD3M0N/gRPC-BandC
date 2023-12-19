@@ -31,9 +31,9 @@ pip install grpcio grpcio-tools
 
 2. Run the main file:
 
-```bash
-python main.py
-```
+   ```bash
+   python main.py
+   ```
 The main.py file can be edited to change what json file is to be read as input
 The output files are generated and can be checked by the checker files
 
